@@ -30,7 +30,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onDestroy() {
-        Log.i("startTimer", "onDestroy")
+        Log.i(ForeverRunningService.TAG, "onDestroy")
         val broadcastIntent = Intent()
         broadcastIntent.action = "restartservice"
         broadcastIntent.setClass(this, Restarted::class.java)

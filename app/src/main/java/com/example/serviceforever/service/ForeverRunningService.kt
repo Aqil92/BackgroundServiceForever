@@ -17,6 +17,10 @@ import java.util.*
 
 class ForeverRunningService : Service() {
 
+    companion object {
+        val TAG="ServiceForever"
+    }
+
     override   fun onCreate() {
         super.onCreate()
         if (Build.VERSION.SDK_INT > Build.VERSION_CODES.O) {
@@ -47,8 +51,13 @@ class ForeverRunningService : Service() {
     }
 
     override fun onTaskRemoved(rootIntent: Intent) {
-        Log.v("startTimer","onTaskRemoved ")
+        Log.v(TAG,"onTaskRemoved ")
 
+        sendBroadCast(rootIntent)
+
+    }
+
+    fun sendBroadCast(rootIntent: Intent){
         val broadcastIntent = Intent()
         broadcastIntent.action = "restartservice"
         broadcastIntent.setClass(this, Restarted::class.java)
@@ -68,11 +77,12 @@ class ForeverRunningService : Service() {
     }
 
     override fun onDestroy() {
-        Log.v("startTimer","onDestroy Service")
+        Log.v(TAG,"onDestroy Service")
         val broadcastIntent = Intent()
         broadcastIntent.action = "restartservice"
         broadcastIntent.setClass(this, Restarted::class.java)
         this.sendBroadcast(broadcastIntent)
+        sendBroadCast(broadcastIntent)
     }
 
     fun startTimer() {
@@ -80,7 +90,7 @@ class ForeverRunningService : Service() {
       var  timer = Timer()
         timerTask = object : TimerTask() {
             override fun run() {
-              Log.v("startTimer","startTimer")
+              Log.v(TAG,"startTimer")
             }
         }
         timer!!.schedule(timerTask, 101, 2000) //
