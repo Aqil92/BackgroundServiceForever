@@ -1,0 +1,14 @@
+package com.example.serviceforever.service
+
+import android.content.BroadcastReceiver
+import android.content.Context
+import android.content.Intent
+import android.util.Log
+
+class Restarted : BroadcastReceiver() {
+
+    override fun onReceive(context: Context, intent: Intent) {
+        Log.v("startTimer","service trying to stop")
+        val startService = context.startService(Intent(context, ForeverRunningService::class.java))
+    }
+}
